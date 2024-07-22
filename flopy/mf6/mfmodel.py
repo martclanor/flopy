@@ -378,9 +378,9 @@ class MFModel(PackageContainer, ModelInterface):
             else:
                 botm = dis.botm.array
                 idomain = dis.idomain.array
-                if idomain is None:
+                if (idomain is None) and (botm is not None):
                     force_resync = True
-                    idomain = self._resolve_idomain(idomain, botm)
+                    idomain = np.ones_like(botm)
                 self._modelgrid = StructuredGrid(
                     delc=dis.delc.array,
                     delr=dis.delr.array,
@@ -416,9 +416,9 @@ class MFModel(PackageContainer, ModelInterface):
             else:
                 botm = dis.botm.array
                 idomain = dis.idomain.array
-                if idomain is None:
+                if (idomain is None) and (botm is not None):
                     force_resync = True
-                    idomain = self._resolve_idomain(idomain, botm)
+                    idomain = np.ones_like(botm)
                 self._modelgrid = VertexGrid(
                     vertices=dis.vertices.array,
                     cell2d=dis.cell2d.array,
@@ -516,9 +516,9 @@ class MFModel(PackageContainer, ModelInterface):
             else:
                 botm = dis.botm.array
                 idomain = dis.idomain.array
-                if idomain is None:
+                if (idomain is None) and (botm is not None):
                     force_resync = True
-                    idomain = self._resolve_idomain(idomain, botm)
+                    idomain = np.ones_like(botm)
                 self._modelgrid = VertexGrid(
                     vertices=dis.vertices.array,
                     cell1d=dis.cell1d.array,
@@ -554,9 +554,9 @@ class MFModel(PackageContainer, ModelInterface):
             else:
                 botm = dis.botm.array
                 idomain = dis.idomain.array
-                if idomain is None:
+                if (idomain is None) and (botm is not None):
                     force_resync = True
-                    idomain = self._resolve_idomain(idomain, botm)
+                    idomain = np.ones_like(botm)
                 self._modelgrid = VertexGrid(
                     vertices=dis.vertices.array,
                     cell2d=dis.cell2d.array,
@@ -2022,12 +2022,3 @@ class MFModel(PackageContainer, ModelInterface):
         )
 
         return axes
-
-    @staticmethod
-    def _resolve_idomain(idomain, botm):
-        if idomain is None:
-            if botm is None:
-                return idomain
-            else:
-                return np.ones_like(botm)
-        return idomain
