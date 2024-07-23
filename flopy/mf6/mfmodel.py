@@ -323,19 +323,20 @@ class MFModel(PackageContainer, ModelInterface):
             for the model.
 
         """
-        if self.get_grid_type() == DiscretizationType.DIS:
+        grid_type = self.get_grid_type()
+        if grid_type == DiscretizationType.DIS:
             dis = self.get_package("dis")
             return StructuredGrid(
                 nlay=dis.nlay.get_data(),
                 nrow=dis.nrow.get_data(),
                 ncol=dis.ncol.get_data(),
             )
-        elif self.get_grid_type() == DiscretizationType.DISV:
+        elif grid_type == DiscretizationType.DISV:
             dis = self.get_package("disv")
             return VertexGrid(
                 ncpl=dis.ncpl.get_data(), nlay=dis.nlay.get_data()
             )
-        elif self.get_grid_type() == DiscretizationType.DISU:
+        elif grid_type == DiscretizationType.DISU:
             dis = self.get_package("disu")
             nodes = dis.nodes.get_data()
             ncpl = np.array([nodes], dtype=int)
@@ -355,7 +356,8 @@ class MFModel(PackageContainer, ModelInterface):
         force_resync = False
         if not self._mg_resync:
             return self._modelgrid
-        if self.get_grid_type() == DiscretizationType.DIS:
+        grid_type = self.get_grid_type()
+        if grid_type == DiscretizationType.DIS:
             dis = self.get_package("dis")
             if not hasattr(dis, "_init_complete"):
                 if not hasattr(dis, "delr"):
@@ -393,7 +395,7 @@ class MFModel(PackageContainer, ModelInterface):
                     yoff=self._modelgrid.yoffset,
                     angrot=self._modelgrid.angrot,
                 )
-        elif self.get_grid_type() == DiscretizationType.DISV:
+        elif grid_type == DiscretizationType.DISV:
             dis = self.get_package("disv")
             if not hasattr(dis, "_init_complete"):
                 if not hasattr(dis, "cell2d"):
@@ -431,7 +433,7 @@ class MFModel(PackageContainer, ModelInterface):
                     yoff=self._modelgrid.yoffset,
                     angrot=self._modelgrid.angrot,
                 )
-        elif self.get_grid_type() == DiscretizationType.DISU:
+        elif grid_type == DiscretizationType.DISU:
             dis = self.get_package("disu")
             if not hasattr(dis, "_init_complete"):
                 # disu package has not yet been fully initialized
@@ -493,7 +495,7 @@ class MFModel(PackageContainer, ModelInterface):
                 iac=dis.iac.array,
                 ja=dis.ja.array,
             )
-        elif self.get_grid_type() == DiscretizationType.DISV1D:
+        elif grid_type == DiscretizationType.DISV1D:
             dis = self.get_package("disv1d")
             if not hasattr(dis, "_init_complete"):
                 if not hasattr(dis, "cell1d"):
@@ -531,7 +533,7 @@ class MFModel(PackageContainer, ModelInterface):
                     yoff=self._modelgrid.yoffset,
                     angrot=self._modelgrid.angrot,
                 )
-        elif self.get_grid_type() == DiscretizationType.DISV2D:
+        elif grid_type == DiscretizationType.DISV2D:
             dis = self.get_package("disv2d")
             if not hasattr(dis, "_init_complete"):
                 if not hasattr(dis, "cell2d"):
@@ -572,7 +574,7 @@ class MFModel(PackageContainer, ModelInterface):
         else:
             return self._modelgrid
 
-        if self.get_grid_type() != DiscretizationType.DISV:
+        if grid_type != DiscretizationType.DISV:
             # get coordinate data from dis file
             xorig = dis.xorigin.get_data()
             yorig = dis.yorigin.get_data()
