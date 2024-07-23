@@ -528,19 +528,20 @@ class ModelGrid:
             raise MFGridException(except_str)
 
     def get_horizontal_cross_section_dim_arrays(self):
-        if self.grid_type() == DiscretizationType.DIS:
+        grid_type = self.grid_type()
+        if grid_type == DiscretizationType.DIS:
             return [
                 np.arange(1, self.num_rows() + 1, 1, np.int32),
                 np.arange(1, self.num_columns() + 1, 1, np.int32),
             ]
         elif (
-            self.grid_type() == DiscretizationType.DISV
-            or self.grid_type() == DiscretizationType.DISV2D
+            grid_type == DiscretizationType.DISV
+            or grid_type == DiscretizationType.DISV2D
         ):
             return [np.arange(1, self.num_cells_per_layer() + 1, 1, np.int32)]
         elif (
-            self.grid_type() == DiscretizationType.DISU
-            or self.grid_type() == DiscretizationType.DISV1D
+            grid_type == DiscretizationType.DISU
+            or grid_type == DiscretizationType.DISV1D
         ):
             except_str = (
                 "ERROR: Can not get horizontal plane arrays for "
@@ -551,40 +552,42 @@ class ModelGrid:
             raise MFGridException(except_str)
 
     def get_model_dim(self):
-        if self.grid_type() == DiscretizationType.DIS:
+        grid_type = self.grid_type()
+        if grid_type == DiscretizationType.DIS:
             return [self.num_layers(), self.num_rows(), self.num_columns()]
-        elif self.grid_type() == DiscretizationType.DIS2D:
+        elif grid_type == DiscretizationType.DIS2D:
             return [self.num_rows(), self.num_columns()]
-        elif self.grid_type() == DiscretizationType.DISV:
+        elif grid_type == DiscretizationType.DISV:
             return [self.num_layers(), self.num_cells_per_layer()]
         elif (
-            self.grid_type() == DiscretizationType.DISU
-            or self.grid_type() == DiscretizationType.DISV1D
-            or self.grid_type() == DiscretizationType.DISV2D
+            grid_type == DiscretizationType.DISU
+            or grid_type == DiscretizationType.DISV1D
+            or grid_type == DiscretizationType.DISV2D
         ):
             return [self.num_cells()]
 
     def get_model_dim_arrays(self):
-        if self.grid_type() == DiscretizationType.DIS:
+        grid_type = self.grid_type()
+        if grid_type == DiscretizationType.DIS:
             return [
                 np.arange(1, self.num_layers() + 1, 1, np.int32),
                 np.arange(1, self.num_rows() + 1, 1, np.int32),
                 np.arange(1, self.num_columns() + 1, 1, np.int32),
             ]
-        elif self.grid_type() == DiscretizationType.DIS2D:
+        elif grid_type == DiscretizationType.DIS2D:
             return [
                 np.arange(1, self.num_rows() + 1, 1, np.int32),
                 np.arange(1, self.num_columns() + 1, 1, np.int32),
             ]
-        elif self.grid_type() == DiscretizationType.DISV:
+        elif grid_type == DiscretizationType.DISV:
             return [
                 np.arange(1, self.num_layers() + 1, 1, np.int32),
                 np.arange(1, self.num_cells_per_layer() + 1, 1, np.int32),
             ]
         elif (
-            self.grid_type() == DiscretizationType.DISU
-            or self.grid_type() == DiscretizationType.DISV1D
-            or self.grid_type() == DiscretizationType.DISV2D
+            grid_type == DiscretizationType.DISU
+            or grid_type == DiscretizationType.DISV1D
+            or grid_type == DiscretizationType.DISV2D
         ):
             return [np.arange(1, self.num_cells() + 1, 1, np.int32)]
 
@@ -598,16 +601,17 @@ class ModelGrid:
         return np.arange(1, self.num_layers() + 1, 1, np.int32)
 
     def get_horizontal_cross_section_dim_names(self):
-        if self.grid_type() == DiscretizationType.DIS:
+        grid_type = self.grid_type()
+        if grid_type == DiscretizationType.DIS:
             return ["row", "column"]
         elif (
-            self.grid_type() == DiscretizationType.DISV
-            or self.grid_type() == DiscretizationType.DISV2D
+            grid_type == DiscretizationType.DISV
+            or grid_type == DiscretizationType.DISV2D
         ):
             return ["layer_cell_num"]
         elif (
-            self.grid_type() == DiscretizationType.DISU
-            or self.grid_type() == DiscretizationType.DISV1D
+            grid_type == DiscretizationType.DISU
+            or grid_type == DiscretizationType.DISV1D
         ):
             except_str = (
                 "ERROR: Can not get layer dimension name for model "
@@ -618,17 +622,18 @@ class ModelGrid:
             raise MFGridException(except_str)
 
     def get_model_dim_names(self):
-        if self.grid_type() == DiscretizationType.DIS:
+        grid_type = self.grid_type()
+        if grid_type == DiscretizationType.DIS:
             return ["layer", "row", "column"]
-        elif self.grid_type() == DiscretizationType.DIS2D:
+        elif grid_type == DiscretizationType.DIS2D:
             return ["row", "column"]
-        elif self.grid_type() == DiscretizationType.DISV:
+        elif grid_type == DiscretizationType.DISV:
             return ["layer", "layer_cell_num"]
-        elif self.grid_type() == DiscretizationType.DISV2D:
+        elif grid_type == DiscretizationType.DISV2D:
             return ["cell_num"]
         elif (
-            self.grid_type() == DiscretizationType.DISU
-            or self.grid_type() == DiscretizationType.DISV1D
+            grid_type == DiscretizationType.DISU
+            or grid_type == DiscretizationType.DISV1D
         ):
             return ["node"]
 
@@ -649,7 +654,8 @@ class ModelGrid:
         return 0
 
     def num_rows(self):
-        if self.grid_type() not in [
+        grid_type = self.grid_type()
+        if grid_type not in [
             DiscretizationType.DIS,
             DiscretizationType.DIS2D,
         ]:
@@ -660,13 +666,14 @@ class ModelGrid:
             print(except_str)
             raise MFGridException(except_str)
 
-        distype = self.grid_type().name.lower()  # dis or dis2d
+        distype = grid_type.name.lower()  # dis or dis2d
         return self._simulation_data.mfdata[
             (self._model_name, distype, "dimensions", "nrow")
         ].get_data()
 
     def num_columns(self):
-        if self.grid_type() not in [
+        grid_type = self.grid_type()
+        if grid_type not in [
             DiscretizationType.DIS,
             DiscretizationType.DIS2D,
         ]:
@@ -677,7 +684,7 @@ class ModelGrid:
             print(except_str)
             raise MFGridException(except_str)
 
-        distype = self.grid_type().name.lower()  # dis or dis2d
+        distype = grid_type.name.lower()  # dis or dis2d
         return self._simulation_data.mfdata[
             (self._model_name, distype, "dimensions", "ncol")
         ].get_data()
@@ -697,80 +704,84 @@ class ModelGrid:
             raise MFGridException(except_str)
 
     def num_cells_per_layer(self):
-        if self.grid_type() == DiscretizationType.DIS:
+        grid_type = self.grid_type()
+        if grid_type == DiscretizationType.DIS:
             return self.num_rows() * self.num_columns()
-        elif self.grid_type() == DiscretizationType.DISV:
+        elif grid_type == DiscretizationType.DISV:
             return self._simulation_data.mfdata[
                 (self._model_name, "disv", "dimensions", "ncpl")
             ].get_data()
-        elif self.grid_type() == DiscretizationType.DISV2D:
+        elif grid_type == DiscretizationType.DISV2D:
             return self._simulation_data.mfdata[
                 (self._model_name, "disv", "dimensions", "nodes")
             ].get_data()
-        elif self.grid_type() == DiscretizationType.DISU:
+        elif grid_type == DiscretizationType.DISU:
             return self._simulation_data.mfdata[
                 (self._model_name, "disu", "dimensions", "nodes")
             ].get_data()
 
     def num_layers(self):
-        if self.grid_type() == DiscretizationType.DIS:
+        grid_type = self.grid_type()
+        if grid_type == DiscretizationType.DIS:
             return self._simulation_data.mfdata[
                 (self._model_name, "dis", "dimensions", "nlay")
             ].get_data()
-        elif self.grid_type() == DiscretizationType.DISV:
+        elif grid_type == DiscretizationType.DISV:
             return self._simulation_data.mfdata[
                 (self._model_name, "disv", "dimensions", "nlay")
             ].get_data()
         elif (
-            self.grid_type() == DiscretizationType.DISU
-            or self.grid_type() == DiscretizationType.DISV1D
-            or self.grid_type() == DiscretizationType.DIS2D
-            or self.grid_type() == DiscretizationType.DISV2D
+            grid_type == DiscretizationType.DISU
+            or grid_type == DiscretizationType.DISV1D
+            or grid_type == DiscretizationType.DIS2D
+            or grid_type == DiscretizationType.DISV2D
         ):
             return None
 
     def num_cells(self):
-        if self.grid_type() == DiscretizationType.DIS:
+        grid_type = self.grid_type()
+        if grid_type == DiscretizationType.DIS:
             return self.num_rows() * self.num_columns() * self.num_layers()
-        elif self.grid_type() == DiscretizationType.DIS2D:
+        elif grid_type == DiscretizationType.DIS2D:
             return self.num_rows() * self.num_columns()
-        elif self.grid_type() == DiscretizationType.DISV:
+        elif grid_type == DiscretizationType.DISV:
             return self.num_layers() * self.num_cells_per_layer()
-        elif self.grid_type() == DiscretizationType.DISU:
+        elif grid_type == DiscretizationType.DISU:
             return self._simulation_data.mfdata[
                 (self._model_name, "disu", "dimensions", "nodes")
             ].get_data()
-        elif self.grid_type() == DiscretizationType.DISV2D:
+        elif grid_type == DiscretizationType.DISV2D:
             return self._simulation_data.mfdata[
                 (self._model_name, "disv2d", "dimensions", "nodes")
             ].get_data()
-        elif self.grid_type() == DiscretizationType.DISV1D:
+        elif grid_type == DiscretizationType.DISV1D:
             return self._simulation_data.mfdata[
                 (self._model_name, "disv1d", "dimensions", "nodes")
             ].get_data()
 
     def get_all_model_cells(self):
+        grid_type = self.grid_type()
         model_cells = []
-        if self.grid_type() == DiscretizationType.DIS:
+        if grid_type == DiscretizationType.DIS:
             for layer in range(0, self.num_layers()):
                 for row in range(0, self.num_rows()):
                     for column in range(0, self.num_columns()):
                         model_cells.append((layer + 1, row + 1, column + 1))
             return model_cells
-        elif self.grid_type() == DiscretizationType.DIS2D:
+        elif grid_type == DiscretizationType.DIS2D:
             for row in range(0, self.num_rows()):
                 for column in range(0, self.num_columns()):
                     model_cells.append((layer + 1, row + 1, column + 1))
             return model_cells
-        elif self.grid_type() == DiscretizationType.DISV:
+        elif grid_type == DiscretizationType.DISV:
             for layer in range(0, self.num_layers()):
                 for layer_cellid in range(0, self.num_rows()):
                     model_cells.append((layer + 1, layer_cellid + 1))
             return model_cells
         elif (
-            self.grid_type() == DiscretizationType.DISU
-            or self.grid_type() == DiscretizationType.DISV1D
-            or self.grid_type() == DiscretizationType.DISV2D
+            grid_type == DiscretizationType.DISU
+            or grid_type == DiscretizationType.DISV1D
+            or grid_type == DiscretizationType.DISV2D
         ):
             for node in range(0, self.num_cells()):
                 model_cells.append(node + 1)
