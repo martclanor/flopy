@@ -402,40 +402,11 @@ class ModelDimensions:
         return self._model_grid
 
     def _create_model_grid(self, grid_type):
-        if grid_type == DiscretizationType.DIS:
-            self._model_grid = ModelGrid(
-                self.model_name, self.simulation_data, DiscretizationType.DIS
-            )
-        elif grid_type == DiscretizationType.DISV:
-            self._model_grid = ModelGrid(
-                self.model_name, self.simulation_data, DiscretizationType.DISV
-            )
-        elif grid_type == DiscretizationType.DISU:
-            self._model_grid = UnstructuredModelGrid(
-                self.model_name, self.simulation_data
-            )
-        elif grid_type == DiscretizationType.DISV1D:
-            self._model_grid = ModelGrid(
-                self.model_name,
-                self.simulation_data,
-                DiscretizationType.DISV1D,
-            )
-        elif grid_type == DiscretizationType.DIS2D:
-            self._model_grid = ModelGrid(
-                self.model_name, self.simulation_data, DiscretizationType.DIS2D
-            )
-        elif grid_type == DiscretizationType.DISV2D:
-            self._model_grid = ModelGrid(
-                self.model_name,
-                self.simulation_data,
-                DiscretizationType.DISV2D,
-            )
-        else:
-            self._model_grid = ModelGrid(
-                self.model_name,
-                self.simulation_data,
-                DiscretizationType.UNDEFINED,
-            )
+        self._model_grid = ModelGrid(
+            self.model_name,
+            self.simulation_data,
+            grid_type,
+        )
 
     # Returns a shape for a given set of axes
     def get_data_shape(
