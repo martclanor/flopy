@@ -353,7 +353,6 @@ class MFModel(PackageContainer, ModelInterface):
             model.
 
         """
-        force_resync = False
         if not self._mg_resync:
             return self._modelgrid
         grid_type = self.get_grid_type()
@@ -381,7 +380,6 @@ class MFModel(PackageContainer, ModelInterface):
                 botm = dis.botm.array
                 idomain = dis.idomain.array
                 if (idomain is None) and (botm is not None):
-                    force_resync = True
                     idomain = np.ones_like(botm)
                 self._modelgrid = StructuredGrid(
                     delc=dis.delc.array,
@@ -419,7 +417,6 @@ class MFModel(PackageContainer, ModelInterface):
                 botm = dis.botm.array
                 idomain = dis.idomain.array
                 if (idomain is None) and (botm is not None):
-                    force_resync = True
                     idomain = np.ones_like(botm)
                 self._modelgrid = VertexGrid(
                     vertices=dis.vertices.array,
@@ -519,7 +516,6 @@ class MFModel(PackageContainer, ModelInterface):
                 botm = dis.botm.array
                 idomain = dis.idomain.array
                 if (idomain is None) and (botm is not None):
-                    force_resync = True
                     idomain = np.ones_like(botm)
                 self._modelgrid = VertexGrid(
                     vertices=dis.vertices.array,
@@ -557,7 +553,6 @@ class MFModel(PackageContainer, ModelInterface):
                 botm = dis.botm.array
                 idomain = dis.idomain.array
                 if (idomain is None) and (botm is not None):
-                    force_resync = True
                     idomain = np.ones_like(botm)
                 self._modelgrid = VertexGrid(
                     vertices=dis.vertices.array,
@@ -607,7 +602,7 @@ class MFModel(PackageContainer, ModelInterface):
             angrot,
             self._modelgrid.crs,
         )
-        self._mg_resync = not self._modelgrid.is_complete or force_resync
+        self._mg_resync = not self._modelgrid.is_complete
         return self._modelgrid
 
     @property
